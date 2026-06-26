@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 import { isAuthed } from "@/lib/auth";
-import { listLeads, stats } from "@/lib/leads";
+import { listLeads } from "@/lib/leads";
 import { Board } from "@/components/Board";
-import { STAGES } from "@/lib/stages";
 
 export const dynamic = "force-dynamic";
 
@@ -10,29 +9,13 @@ export default async function HomePage() {
   if (!isAuthed()) redirect("/login");
 
   let leads;
-  let s;
   try {
-    [leads, s] = await Promise.all([listLeads(), stats()]);
+    leads = await listLeads();
   } catch (err) {
     return <SetupNotice error={err instanceof Error ? err.message : String(err)} />;
   }
 
-  return (
-    <div>
-      <div className="mb-5 flex flex-wrap items-center gap-3">
-        <h1 className="text-xl font-bold">Pipeline</h1>
-        <div className="flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full bg-slate-200 px-2.5 py-1 font-semibold">Celkem {s.total}</span>
-          {STAGES.map((st) => (
-            <span key={st.key} className="rounded-full px-2.5 py-1 font-medium text-white" style={{ background: st.color }}>
-              {st.label} {s.byStage[st.key] ?? 0}
-            </span>
-          ))}
-        </div>
-      </div>
-      <Board initial={leads} />
-    </div>
-  );
+  return <Board initial={leads} />;
 }
 
 function SetupNotice({ error }: { error: string }) {
