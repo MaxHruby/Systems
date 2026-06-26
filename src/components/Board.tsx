@@ -208,7 +208,19 @@ function LeadCard({
         <Link href={`/leads/${lead.id}`} className="font-semibold leading-tight hover:underline">
           {lead.company_name}
         </Link>
-        <span className="select-none text-slate-300 group-hover:text-slate-400" title="Přetáhni">⋮⋮</span>
+        <div className="flex items-center gap-1">
+          {lead.email && (
+            <Link
+              href={`/outreach?lead=${lead.id}`}
+              onClick={(e) => e.stopPropagation()}
+              className="rounded px-1 text-slate-400 opacity-0 transition hover:bg-slate-100 hover:text-sky-600 group-hover:opacity-100"
+              title="Napsat email"
+            >
+              ✉️
+            </Link>
+          )}
+          <span className="select-none text-slate-300 group-hover:text-slate-400" title="Přetáhni">⋮⋮</span>
+        </div>
       </div>
       <div className="mt-1.5 space-y-1 text-xs text-slate-500">
         {lead.category && <div>{lead.category}</div>}
