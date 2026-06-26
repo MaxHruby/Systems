@@ -29,9 +29,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mx-auto mt-20 max-w-sm">
-      <div className="card p-6">
-        <h1 className="text-lg font-bold">Systems CRM</h1>
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="card w-full max-w-sm p-7">
+        <div className="mb-5 flex items-center gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-lg font-black text-white shadow-sm">S</span>
+          <div>
+            <h1 className="text-base font-bold leading-tight">Systems CRM</h1>
+            <p className="text-xs text-slate-500">Systémy &amp; Automatizace</p>
+          </div>
+        </div>
         <p className="mb-4 text-sm text-slate-500">Zadej heslo pro přístup.</p>
         <form onSubmit={submit} className="space-y-3">
           <div>
