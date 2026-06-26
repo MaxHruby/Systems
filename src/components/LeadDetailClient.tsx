@@ -115,7 +115,7 @@ export function LeadDetailClient({ lead: initial, notes: initialNotes }: { lead:
               <a href={`tel:${lead.phone.replace(/\s/g, "")}`} className="btn-ghost text-sm">📞 Zavolat {lead.phone}</a>
             )}
             {lead.email && (
-              <a href={`mailto:${lead.email}`} className="btn-ghost text-sm">✉️ {lead.email}</a>
+              <a href={`/outreach?lead=${lead.id}`} className="btn-primary text-sm">✉️ Napsat email</a>
             )}
             {lead.website && (
               <a href={lead.website} target="_blank" rel="noreferrer" className="btn-ghost text-sm">🌐 Web ↗</a>

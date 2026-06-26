@@ -24,6 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/followup" className="btn-ghost border-0 hover:bg-slate-100">
                 Follow-up
               </Link>
+              <Link href="/outreach" className="btn-ghost border-0 hover:bg-slate-100">
+                Psát
+              </Link>
               <Link href="/find" className="btn-ghost border-0 hover:bg-slate-100">
                 Najít firmy
               </Link>

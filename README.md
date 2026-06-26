@@ -9,6 +9,7 @@ v prodejní pipeline + hledání firem podle regionu a oboru.
   - **Engine — Google Maps** (volitelně) — přes `engine.zaigla.com`, aktivní po doplnění `ENGINE_API_KEY`
 - **Detail leadu**: kontakty (klikací tel/email), fáze, časová osa aktivit; změna fáze se loguje sama
 - **Follow-up**: termín další akce u leadu + přehled „Po termínu / Dnes / Tento týden" s rychlým přeplánováním
+- **Psát**: odesílání emailů přímo z CRM (SMTP/Gmail) se šablonami; odeslání se zaloguje, posune fázi a nastaví follow-up
 - **Šablony**: LinkedIn zpráva, cold email sekvence (3 e-maily), telefonní/audit skript — editovatelné, s kopírováním
 - **Export CSV**: stáhne všechny leady (Excel-friendly, s diakritikou)
 
@@ -45,7 +46,24 @@ Doporučeně nastav `APP_PASSWORD` (jinak appka běží bez přihlášení).
 - **Engine**: doplň `ENGINE_API_KEY` → ve formuláři přibude zdroj „Engine — Google Maps"
   s lepším pokrytím a volným textovým dotazem.
 
-## 5. Nasazení na Vercel
+## 5. Napojení emailu (stránka „Psát")
+
+Outreach se posílá přes **SMTP z tvého Gmailu**, takže maily chodí z tvé reálné
+adresy a odpovědi se vrací do tvé schránky.
+
+1. Zapni si na Google účtu **dvoufázové ověření** (2FA).
+2. Vytvoř **App Password**: https://myaccount.google.com/apppasswords → vyber
+   „Mail" → zkopíruj 16místné heslo.
+3. Doplň proměnné (lokálně do `.env.local`, na produkci do Vercelu):
+   - `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=465`
+   - `SMTP_USER` = tvůj gmail, `SMTP_PASS` = app password
+   - `SMTP_FROM_NAME` = jméno odesílatele, volitelně `OUTREACH_SIGNATURE`
+4. Hotovo — na stránce **Psát** vyber lead, šablonu, uprav a odešli. Odeslání se
+   zaloguje k leadu, posune fázi na *Kontaktován* a nastaví follow-up za 3 dny.
+
+> Jiný poskytovatel než Gmail funguje taky — stačí jeho SMTP host/port/údaje.
+
+## 6. Nasazení na Vercel
 
 1. Push do GitHubu (repo `MaxHruby/Systems`).
 2. Na [vercel.com](https://vercel.com) → **Add New → Project** → import repa.
