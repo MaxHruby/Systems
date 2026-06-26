@@ -16,14 +16,24 @@ export function fromName(): string {
   return process.env.SMTP_FROM_NAME || "";
 }
 
-function transport() {
+let cachedTx: nodemailer.Transporter | null = null;
+
+function transport(): nodemailer.Transporter {
+  if (cachedTx) return cachedTx;
   const port = Number(process.env.SMTP_PORT || 465);
-  return nodemailer.createTransport({
+  cachedTx = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port,
     secure: port === 465, // 465 = SSL, 587 = STARTTLS
     auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+    // Pool + rate-limit: u hromadného odeslání posílej max ~1 mail/1,2 s,
+    // ať to Gmail nebere jako spam dávku.
+    pool: true,
+    maxConnections: 1,
+    rateDelta: 1200,
+    rateLimit: 1,
   });
+  return cachedTx;
 }
 
 export async function sendEmail(opts: { to: string; subject: string; text: string }): Promise<void> {

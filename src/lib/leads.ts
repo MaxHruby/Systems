@@ -173,6 +173,32 @@ export async function allLeads(): Promise<Lead[]> {
   return (data ?? []) as Lead[];
 }
 
+export type ActivityItem = {
+  id: string;
+  body: string;
+  kind: string;
+  created_at: string;
+  lead_id: string;
+  company_name: string;
+};
+
+export async function recentActivity(limit = 8): Promise<ActivityItem[]> {
+  const { data, error } = await supabaseAdmin()
+    .from("lead_notes")
+    .select("id, body, kind, created_at, lead_id, leads(company_name)")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((row: any) => ({
+    id: row.id,
+    body: row.body,
+    kind: row.kind,
+    created_at: row.created_at,
+    lead_id: row.lead_id,
+    company_name: row.leads?.company_name ?? "—",
+  }));
+}
+
 export async function stats(): Promise<{ total: number; byStage: Record<string, number> }> {
   const { data, error } = await supabaseAdmin().from("leads").select("stage");
   if (error) throw new Error(error.message);

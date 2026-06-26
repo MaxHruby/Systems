@@ -18,6 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/" className="mr-3 text-sm font-bold tracking-tight">
                 Systems<span className="text-slate-400">CRM</span>
               </Link>
+              <Link href="/dashboard" className="btn-ghost border-0 hover:bg-slate-100">
+                Přehled
+              </Link>
               <Link href="/" className="btn-ghost border-0 hover:bg-slate-100">
                 Pipeline
               </Link>
